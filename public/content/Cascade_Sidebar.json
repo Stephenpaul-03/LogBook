@@ -1,0 +1,15 @@
+{
+  "home": {
+    "label": "Cascade Home",
+    "path": "/"
+  },
+  "categories": [
+    {
+      "title": "Introduction",
+      "topics": {
+        "Overview": "/docs/overview",
+        "Architecture": "/docs/architecture"
+      }
+    }
+  ]
+}

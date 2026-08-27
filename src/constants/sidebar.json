@@ -1,0 +1,113 @@
+{
+  "home": {
+    "label": "Home",
+    "path": "/"
+  },
+  "categories": [
+    {
+      "title": "How CSS Works",
+      "topics": {
+        "Connecting CSS to HTML": "/how-css-works/css-html-connection",
+        "The Cascade": "/how-css-works/the-cascade",
+        "Selectors": "/how-css-works/selectors"
+      }
+    },
+    {
+      "title": "Box Model",
+      "topics": {
+        "The Box Model": "/box-model/box-model",
+        "box-sizing": "/box-model/box-sizing",
+        "overflow": "/box-model/overflow"
+      }
+    },
+    {
+      "title": "Units & Values",
+      "topics": {
+        "px, rem, and em": "/units-and-values/px-rem-em",
+        "vh, vw, and %": "/units-and-values/viewport-units"
+      }
+    },
+    {
+      "title": "Typography",
+      "topics": {
+        "font-family": "/typography/font-family",
+        "text-align": "/typography/text-align",
+        "font-size": "/typography/font-size",
+        "font-weight": "/typography/font-weight",
+        "line-height": "/typography/line-height",
+        "letter-spacing": "/typography/letter-spacing"
+      }
+    },
+    {
+      "title": "Backgrounds",
+      "topics": {
+        "Color Formats": "/colors-and-backgrounds/color-formats",
+        "color": "/colors-and-backgrounds/color",
+        "background-color": "/colors-and-backgrounds/background-color",
+        "background": "/colors-and-backgrounds/background",
+        "Gradients": "/colors-and-backgrounds/gradients"
+      }
+    },
+    {
+      "title": "Display & Positioning",
+      "topics": {
+        "block, inline, inline-block": "/display-and-positioning/display-modes",
+        "display": "/display-and-positioning/display",
+        "position": "/display-and-positioning/position"
+      }
+    },
+    {
+      "title": "Flexbox",
+      "topics": {
+        "flex-direction & flex-wrap": "/flexbox/flex-direction-wrap",
+        "justify-content": "/flexbox/justify-content",
+        "align-items": "/flexbox/align-items",
+        "gap": "/flexbox/gap",
+        "flex-grow, flex-shrink, flex-basis": "/flexbox/flex-sizing"
+      }
+    },
+    {
+      "title": "Borders & Shadows",
+      "topics": {
+        "border": "/borders-and-shadows/border",
+        "border-radius": "/borders-and-shadows/border-radius",
+        "box-shadow": "/borders-and-shadows/box-shadow",
+        "outline": "/borders-and-shadows/outline"
+      }
+    },
+    {
+      "title": "Spacing Patterns",
+      "topics": {
+        "margin": "/spacing-patterns/margin",
+        "padding": "/spacing-patterns/padding",
+        "Margin Collapse": "/spacing-patterns/margin-collapse",
+        "Centering Things": "/spacing-patterns/centering"
+      }
+    },
+    {
+      "title": "Visual Effects",
+      "topics": {
+        "opacity": "/visual-effects/opacity",
+        "filter": "/visual-effects/filter",
+        "backdrop-filter": "/visual-effects/backdrop-filter"
+      }
+    },
+    {
+      "title": "Motion",
+      "topics": {
+        "transform": "/motion/transform",
+        "transition": "/motion/transition",
+        "Easing & Timing": "/motion/easing"
+      }
+    },
+    {
+      "title": "Advanced",
+      "topics": {
+        "grid-template-columns": "/advanced/grid-template-columns",
+        "container-type": "/advanced/container-type",
+        "isolation": "/advanced/isolation",
+        "animation": "/advanced/animation"
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "home": {
+    "label": "About",
+    "path": "/"
+  },
+  "categories": [
+    {
+      "title": "Getting Started",
+      "topics": {
+        "About": "/",
+        "Quick Start": "/docs/quick-start",
+        "Guide": "/docs/guide"
+      }
+    },
+    {
+      "title": "Information",
+      "topics": {
+        "FAQ": "/docs/faq",
+        "Changelogs": "/docs/changelogs",
+        "Planned Features": "/docs/planned-features"
+      }
+    },
+    {
+      "title": "Legal",
+      "topics": {
+        "Terms and Conditions": "/docs/terms-and-conditions",
+        "Privacy Policy": "/docs/privacy-policy"
+      }
+    }
+  ]
+}
