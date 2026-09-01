@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
 import type React from "react"
 
-import darkFaviconUrl from "@/assets/icon-dark.ico"
-import lightFaviconUrl from "@/assets/icon-light.ico"
 import {
   ThemeProviderContext,
   type Theme,
@@ -37,11 +35,6 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement
-    const favicon = window.document.querySelector<HTMLLinkElement>("#app-favicon")
-
-    if (favicon) {
-      favicon.href = theme === "dark" ? darkFaviconUrl : lightFaviconUrl
-    }
 
     // Disable transitions temporarily to prevent lag when switching themes
     const css = document.createElement("style")
