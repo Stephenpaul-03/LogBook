@@ -1,7 +1,11 @@
 # LogBook
 
 <p align="center">
-  <img src="src/assets/icon-light.png" alt="LogBook logo" width="120" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="src/assets/icon-dark.png" />
+    <source media="(prefers-color-scheme: light)" srcset="src/assets/icon-light.png" />
+    <img src="src/assets/icon-light.png" alt="LogBook logo" width="120" />
+  </picture>
 </p>
 
 <p align="center"><strong>Developer documentation without the filing cabinet energy.</strong></p>
