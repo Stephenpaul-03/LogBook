@@ -14,15 +14,19 @@ import { PropertyRenderer } from "@/components/property/PropertyRenderer"
 import { Sidebar } from "@/components/layout/Sidebar"
 import { TopNavbar } from "@/components/layout/TopNavbar"
 import type { NavigationPageData, SidebarCategoryData, SidebarItemData } from "@/types/navigation"
+import { sitePath, siteRoot } from "@/lib/site-path"
 
 const initialActivePath = "/"
 
 function parseUrl(): { projectId: string; pagePath: string } | null {
   if (typeof window === "undefined") return null
   const pathname = window.location.pathname
-  if (!pathname || pathname === "/") return null
+  if (!pathname || pathname === "/" || pathname === siteRoot) return null
 
-  const segment = pathname.substring(1) // remove leading "/"
+  const root = siteRoot.endsWith("/") ? siteRoot.slice(0, -1) : siteRoot
+  const segment = pathname.startsWith(`${root}/`)
+    ? pathname.substring(root.length + 1)
+    : pathname.substring(1)
   const matchedProject = PROJECTS.find((p) =>
     segment.toLowerCase().startsWith(p.id.toLowerCase() + "-")
   )
@@ -156,7 +160,7 @@ export function AppShell() {
       slug = currentItem.slug
     }
 
-    const expectedPathname = `/${activeProject.id}-${slug}`
+    const expectedPathname = sitePath(`/${activeProject.id}-${slug}`)
     if (window.location.pathname !== expectedPathname) {
       window.history.pushState(
         { projectId: activeProject.id, pagePath: slug },
@@ -175,8 +179,8 @@ export function AppShell() {
         // Resolve home page
         let homePageResolved = parsed.homePage
         const homeCandidates = [
-          `/content/${activeProject.id}/home.md`,
-          `/content/${activeProject.id}/index.md`
+          sitePath(`/content/${activeProject.id}/home.md`),
+          sitePath(`/content/${activeProject.id}/index.md`)
         ]
         for (const url of homeCandidates) {
           try {
@@ -206,11 +210,11 @@ export function AppShell() {
                 const singleDigitPrefix = String(index + 1)
                 
                 const candidates = [
-                  `/content/${activeProject.id}/${slugSegment}.md`,
-                  `/content/${activeProject.id}/docs/${slugSegment}.md`,
-                  `/content/${activeProject.id}/${categorySegment}/${slugSegment}.md`,
-                  `/content/${activeProject.id}/${categorySegment}/${twoDigitPrefix}-${slugSegment}.md`,
-                  `/content/${activeProject.id}/${categorySegment}/${singleDigitPrefix}-${slugSegment}.md`
+                  sitePath(`/content/${activeProject.id}/${slugSegment}.md`),
+                  sitePath(`/content/${activeProject.id}/docs/${slugSegment}.md`),
+                  sitePath(`/content/${activeProject.id}/${categorySegment}/${slugSegment}.md`),
+                  sitePath(`/content/${activeProject.id}/${categorySegment}/${twoDigitPrefix}-${slugSegment}.md`),
+                  sitePath(`/content/${activeProject.id}/${categorySegment}/${singleDigitPrefix}-${slugSegment}.md`)
                 ]
 
                 for (const url of candidates) {

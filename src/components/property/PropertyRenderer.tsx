@@ -14,6 +14,7 @@ import type { Project } from "@/constants/projects"
 
 import { DocumentLayout } from "@/components/property/layouts/DocumentLayout"
 import { parseMarkdown, type QuizData } from "@/lib/markdown-parser"
+import { sitePath } from "@/lib/site-path"
 import { QuizCard } from "@/components/property/layouts/QuizCard"
 
 type PropertyRendererProps = {
@@ -45,7 +46,7 @@ export function PropertyRenderer({
 
     const categorySegment = parentLabel ? parentLabel : ""
     const slugSegment = currentPage.slug ? currentPage.slug : "home"
-    const base = `/content/${activeProject.id}/${categorySegment ? categorySegment + "/" : ""}`
+    const base = sitePath(`/content/${activeProject.id}/${categorySegment ? categorySegment + "/" : ""}`)
 
     async function fetchContent() {
       if (currentPage.resolvedUrl) {
