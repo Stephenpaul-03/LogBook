@@ -1,60 +1,45 @@
 # LogBook
 
-LogBook is a desktop-first documentation hub for browsing multiple collections of structured Markdown notes. It currently ships with LogBook and Cascade workspaces, each with its own sidebar and content tree.
+<p align="center">
+  <img src="src/assets/icon-light.png" alt="LogBook logo" width="120" />
+</p>
 
-## Features
+<p align="center"><strong>Developer documentation without the filing cabinet energy.</strong></p>
 
-- Switch between independent documentation projects
-- Project sidebars loaded from JSON
-- Markdown pages with optional layouts, code blocks, and quiz blocks
-- Searchable navigation and command palette
-- System-aware light and dark themes
-- Desktop-only guard for the intended reading experience
+LogBook is my minimalist document viewer and personal developer hub. It gives project documentation a proper reading experience: a clear sidebar, sensible navigation, quick access to related pages, and just enough structure to stop useful information from dissolving into a pile of tabs.
 
-## Tech stack
+It is for the practical stuff around a project—the guide someone needs before they start, the FAQ they will read after something goes sideways, the changelog that explains what changed, and the legal page everyone swears they will read eventually.
 
-- React 19 and TypeScript
-- Vite
-- Tailwind CSS 4
-- Radix UI and shadcn/ui patterns
-- `marked` for Markdown rendering
+## What LogBook is for
 
-## Getting started
+LogBook brings several kinds of project information into one place:
 
-Requirements: Node.js 18+ and npm.
+- Getting-started guides for new users
+- Product and project documentation
+- FAQs and deeper reference material
+- Changelogs and planned features
+- Terms, privacy policies, and other important fine print
 
-```sh
-npm install
-npm run dev
-```
+## What it can do
 
-Open the local URL printed by Vite. Build and preview the production version with:
+- Host multiple documentation projects in one viewer
+- Give each project its own content tree and navigation
+- Render clean Markdown pages with headings, links, images, lists, and code
+- Move through documents with sidebars, breadcrumbs, and a command palette
+- Keep the reading surface quiet and focused instead of turning documentation into a dashboard
+- Support light, dark, and system themes
+- Work as a lightweight, client-side documentation site with no account or database required
 
-```sh
-npm run build
-npm run preview
-```
+## Current projects
 
-## Content model
+### LogBook
 
-Projects are registered in `src/constants/projects.ts`. Each project points to a sidebar JSON file, which maps categories and topics to Markdown files in `public/content/`:
+The documentation hub itself: quick starts, usage guidance, FAQs, changelogs, roadmap notes, and the legal pages that keep the paperwork from hiding under the desk.
 
-```text
-src/constants/projects.ts
-public/content/<ProjectId>_Sidebar.json
-public/content/<ProjectId>/home.md
-public/content/<ProjectId>/<Category>/<entry-slug>.md
-```
+### Cascade
 
-Add a project to `PROJECTS`, create its sidebar JSON, and add the referenced Markdown files. Topic files can use the plain slug or the supported `01-<slug>.md` / `1-<slug>.md` prefixes. See [USAGE.md](USAGE.md) and [ADDING_SUBJECTS.md](ADDING_SUBJECTS.md) for the detailed content workflow.
+A visual CSS playground and reference space for inspecting CSS cascades, font families, and container queries in real time. Cascade makes computed values and layout outcomes easier to see instead of leaving me to guess which rule won the argument.
 
-## Development commands
+## The idea behind it
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Start the Vite development server |
-| `npm run build` | Type-check and create a production build |
-| `npm run lint` | Run ESLint |
-| `npm run preview` | Serve the production build locally |
-
-Run `npm run build`, `npm run lint`, and `git diff --check` before committing.
+Documentation should help someone move forward. LogBook is built around that feeling: open the project, find the relevant page, understand what is happening, and get back to the thing you were trying to do.
