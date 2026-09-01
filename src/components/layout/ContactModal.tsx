@@ -18,7 +18,7 @@ const contactCopy = {
   title: "Have a policy question?",
   description:
     "If you have a question about any project’s Privacy Policy, Terms and Conditions, or how data is handled, you can contact me below.",
-  note: "Please mention the policy or section you’re referring to so I can respond as clearly as possible. Email is the quickest way to reach me.",
+  note: "Email is the best way to get in touch. You can also find me on LinkedIn or GitHub.",
 }
 
 const contactLinks = [
@@ -29,7 +29,7 @@ const contactLinks = [
   },
   {
     label: "Connect on LinkedIn",
-    href: "https://www.linkedin.com/in/stephen-paul-jesuadian/",
+    href: "https://www.linkedin.com/in/stephen-paul-i/",
     icon: Linkedin,
   },
   {
