@@ -1,4 +1,4 @@
-import { ChevronDown, Github, MessageCircle, PanelLeft, PanelLeftClose } from "lucide-react"
+import { ChevronDown, MessageCircle, PanelLeft, PanelLeftClose } from "lucide-react"
 
 import { ModeToggle } from "@/components/theme/mode-toggle"
 import { Button } from "@/components/ui/button"
@@ -89,15 +89,6 @@ export function TopNavbar({
             className="border-zinc-200 bg-white text-zinc-700 shadow-none hover:bg-zinc-100 hover:text-zinc-950 dark:border-white/[0.1] dark:bg-white/[0.045] dark:text-zinc-300 dark:hover:bg-white/[0.075] dark:hover:text-zinc-100 cursor-pointer"
           >
             <MessageCircle className="size-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            aria-label="Open LogBook on GitHub"
-            title="Open LogBook on GitHub"
-            className="border-zinc-200 bg-white text-zinc-600 shadow-none hover:bg-zinc-100 hover:text-zinc-950 dark:border-white/[0.1] dark:bg-white/[0.045] dark:text-zinc-400 dark:hover:bg-white/[0.075] dark:hover:text-zinc-100 cursor-pointer"
-          >
-            <Github className="size-4" />
           </Button>
           <ModeToggle />
         </div>

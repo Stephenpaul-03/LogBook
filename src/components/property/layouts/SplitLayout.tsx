@@ -1,8 +1,8 @@
-type DocumentLayoutProps = {
+type SplitLayoutProps = {
   htmlContent: string
 }
 
-export function DocumentLayout({ htmlContent }: DocumentLayoutProps) {
+export function SplitLayout({ htmlContent }: SplitLayoutProps) {
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-6 md:px-10 md:py-12">
       <div

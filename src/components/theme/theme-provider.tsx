@@ -5,11 +5,8 @@ import darkFaviconUrl from "@/assets/icon-dark.ico"
 import lightFaviconUrl from "@/assets/icon-light.ico"
 import {
   ThemeProviderContext,
-  type ResolvedTheme,
   type Theme,
 } from "@/components/theme/theme-context"
-
-const systemThemeQuery = "(prefers-color-scheme: dark)"
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -17,21 +14,13 @@ type ThemeProviderProps = {
   storageKey?: string
 }
 
-function getSystemTheme(): ResolvedTheme {
-  return window.matchMedia(systemThemeQuery).matches ? "dark" : "light"
-}
-
-function getResolvedTheme(theme: Theme): ResolvedTheme {
-  return theme === "system" ? getSystemTheme() : theme
-}
-
 function isTheme(value: string | null): value is Theme {
-  return value === "dark" || value === "light" || value === "system"
+  return value === "dark" || value === "light"
 }
 
 export function ThemeProvider({
   children,
-  defaultTheme = "system",
+  defaultTheme = "dark",
   storageKey = "vite-ui-theme",
   ...props
 }: ThemeProviderProps) {
@@ -44,32 +33,14 @@ export function ThemeProvider({
         : defaultTheme
     }
   )
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() => getResolvedTheme(theme))
-
   const [splash, setSplash] = useState<{ x: number; y: number; color: string } | null>(null)
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(systemThemeQuery)
-
-    function handleSystemThemeChange() {
-      setResolvedTheme(getResolvedTheme(theme))
-    }
-
-    handleSystemThemeChange()
-
-    mediaQuery.addEventListener("change", handleSystemThemeChange)
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleSystemThemeChange)
-    }
-  }, [theme])
 
   useEffect(() => {
     const root = window.document.documentElement
     const favicon = window.document.querySelector<HTMLLinkElement>("#app-favicon")
 
     if (favicon) {
-      favicon.href = resolvedTheme === "dark" ? darkFaviconUrl : lightFaviconUrl
+      favicon.href = theme === "dark" ? darkFaviconUrl : lightFaviconUrl
     }
 
     // Disable transitions temporarily to prevent lag when switching themes
@@ -89,7 +60,7 @@ export function ThemeProvider({
     document.head.appendChild(css)
 
     root.classList.remove("light", "dark")
-    root.classList.add(resolvedTheme)
+    root.classList.add(theme)
 
     // Force a reflow
     void window.getComputedStyle(css).opacity
@@ -98,21 +69,18 @@ export function ThemeProvider({
     setTimeout(() => {
       document.head.removeChild(css)
     }, 0)
-  }, [resolvedTheme])
+  }, [theme])
 
   const value = {
     theme,
-    resolvedTheme,
     setTheme: (nextTheme: Theme, event?: React.MouseEvent | { clientX: number; clientY: number }) => {
-      const nextResolvedTheme = getResolvedTheme(nextTheme)
-
       if (event) {
         const { clientX, clientY } = event
 
         setSplash({
           x: clientX,
           y: clientY,
-          color: nextResolvedTheme === "light" ? "#ffffff" : "#09090b",
+          color: nextTheme === "light" ? "#ffffff" : "#09090b",
         })
 
         setTimeout(() => {

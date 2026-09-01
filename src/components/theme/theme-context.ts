@@ -1,17 +1,14 @@
 import { createContext, useContext } from "react"
 
-export type Theme = "dark" | "light" | "system"
-export type ResolvedTheme = "dark" | "light"
+export type Theme = "dark" | "light"
 
 type ThemeProviderState = {
   theme: Theme
-  resolvedTheme: ResolvedTheme
   setTheme: (theme: Theme, event?: React.MouseEvent | { clientX: number; clientY: number }) => void
 }
 
 const initialState: ThemeProviderState = {
-  theme: "system",
-  resolvedTheme: "dark",
+  theme: "dark",
   setTheme: () => null,
 }
 

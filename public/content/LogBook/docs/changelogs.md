@@ -9,6 +9,7 @@ Track updates and revisions made to LogBook.
 - **Simplified Layouts:** Replaced complex split sandboxed layouts with clean, document-based markdown readers.
 - **Removed Restrictions:** Disabled the desktop-only query guard. Mobile and tablet browsing is now fully enabled.
 - **Header Tweaks:** Removed the support button from the top navigation header.
+- **Lean Markdown:** Removed quiz parsing and quiz cards to keep LogBook focused on documentation.
 
 ### Removed
 - **Deprecated custom pages:** Removed the former custom-page references; the app now uses markdown documentation pages only.
@@ -21,4 +22,4 @@ Track updates and revisions made to LogBook.
 - Multi-subject workspace selector (CSS / AWS).
 - Live code playgrounds and CSS demo boxes.
 - Dark / light theme toggling.
-- Markdown frontmatter parsing and quiz rendering.
+- Markdown frontmatter parsing.

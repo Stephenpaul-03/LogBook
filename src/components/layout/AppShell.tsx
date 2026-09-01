@@ -80,7 +80,9 @@ export function AppShell() {
   const [activeSectionTitle, setActiveSectionTitle] = useState<string>()
 
   // Collapsible States
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() =>
+    typeof window !== "undefined" && window.innerWidth < 768,
+  )
   const [isContactOpen, setIsContactOpen] = useState(false)
   const [splashCoords, setSplashCoords] = useState<{ x: number; y: number } | null>(null)
 

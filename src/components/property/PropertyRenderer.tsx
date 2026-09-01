@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import type { ReactNode } from "react"
-import { marked } from "marked"
+import { LoaderCircle } from "lucide-react"
+import { marked, type Tokens } from "marked"
 import Prism from "prismjs"
 import "prismjs/components/prism-css"
 import "prismjs/components/prism-javascript"
@@ -13,9 +14,9 @@ import type { NavigationPageData } from "@/types/navigation"
 import type { Project } from "@/constants/projects"
 
 import { DocumentLayout } from "@/components/property/layouts/DocumentLayout"
-import { parseMarkdown, type QuizData } from "@/lib/markdown-parser"
+import { SplitLayout } from "@/components/property/layouts/SplitLayout"
+import { parseMarkdown, type Frontmatter } from "@/lib/markdown-parser"
 import { sitePath } from "@/lib/site-path"
-import { QuizCard } from "@/components/property/layouts/QuizCard"
 
 type PropertyRendererProps = {
   onActiveSectionChange: (title?: string) => void
@@ -35,33 +36,30 @@ export function PropertyRenderer({
   onHeadingsLoaded,
 }: PropertyRendererProps) {
   const [htmlContent, setHtmlContent] = useState<string | null>(null)
-  const [quizData, setQuizData] = useState<QuizData | null>(null)
+  const [frontmatter, setFrontmatter] = useState<Frontmatter>({})
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     onActiveSectionChange(undefined)
     setHtmlContent(null)
-    setQuizData(null)
+    setFrontmatter({})
     setLoading(true)
 
-    const categorySegment = parentLabel ? parentLabel : ""
-    const slugSegment = currentPage.slug ? currentPage.slug : "home"
-    const base = sitePath(`/content/${activeProject.id}/${categorySegment ? categorySegment + "/" : ""}`)
+    const categorySegment = parentLabel ?? ""
+    const slugSegment = currentPage.slug ?? "home"
+    const base = sitePath(`/content/${activeProject.id}/${categorySegment ? `${categorySegment}/` : ""}`)
 
     async function fetchContent() {
       if (currentPage.resolvedUrl) {
         const res = await fetch(currentPage.resolvedUrl)
         const contentType = res.headers.get("content-type") || ""
-        if (res.ok && !contentType.includes("text/html")) {
-          return res.text()
-        }
+        if (res.ok && !contentType.includes("text/html")) return res.text()
       }
 
-      // Fallback candidate check
       const candidates = [
         `${slugSegment}.md`,
-        ...Array.from({ length: 15 }, (_, i) => `${String(i + 1).padStart(2, "0")}-${slugSegment}.md`),
-        ...Array.from({ length: 15 }, (_, i) => `${i + 1}-${slugSegment}.md`)
+        ...Array.from({ length: 15 }, (_, index) => `${String(index + 1).padStart(2, "0")}-${slugSegment}.md`),
+        ...Array.from({ length: 15 }, (_, index) => `${index + 1}-${slugSegment}.md`),
       ]
 
       for (const candidate of candidates) {
@@ -69,11 +67,9 @@ export function PropertyRenderer({
         try {
           const res = await fetch(url)
           const contentType = res.headers.get("content-type") || ""
-          if (res.ok && !contentType.includes("text/html")) {
-            return res.text()
-          }
+          if (res.ok && !contentType.includes("text/html")) return res.text()
         } catch {
-          // ignore
+          // Keep trying the generated filename candidates.
         }
       }
       throw new Error("MD file not found")
@@ -81,8 +77,8 @@ export function PropertyRenderer({
 
     fetchContent()
       .then((text) => {
-        const { content: markdownBody, quiz } = parseMarkdown(text)
-        setQuizData(quiz)
+        const { frontmatter: parsedFrontmatter, content: markdownBody } = parseMarkdown(text)
+        setFrontmatter(parsedFrontmatter)
 
         const headingsList = markdownBody
           .split("\n")
@@ -91,72 +87,56 @@ export function PropertyRenderer({
         onHeadingsLoaded?.(headingsList)
 
         const renderer = new marked.Renderer()
-        
-        // 1. Heading Renderer (Scroll Sync IDs)
-        renderer.heading = function (arg1: any, arg2?: any) {
-          let textVal = ""
-          let depthVal = 2
-          if (typeof arg1 === "object" && arg1 !== null) {
-            textVal = arg1.text || ""
-            depthVal = arg1.depth || 2
-          } else {
-            textVal = arg1
-            depthVal = arg2 || 2
-          }
 
-          if (depthVal === 2) {
-            const id = textVal.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-")
-            return `<h2 id="${id}" class="scroll-mt-24">${textVal}</h2>\n`
+        renderer.heading = function ({ text, depth }: Tokens.Heading) {
+          if (depth === 2) {
+            const id = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-")
+            return `<h2 id="${id}" class="scroll-mt-24">${text}</h2>\n`
           }
-          return `<h${depthVal}>${textVal}</h${depthVal}>\n`
+          return `<h${depth}>${text}</h${depth}>\n`
         }
 
-        // 2. Code Renderer (PrismJS Syntax Highlighting)
-        renderer.code = function (arg1: any, arg2?: any) {
-          let codeText = ""
-          let lang = ""
-          if (typeof arg1 === "object" && arg1 !== null) {
-            codeText = arg1.text || ""
-            lang = arg1.lang || ""
-          } else {
-            codeText = arg1
-            lang = arg2 || ""
-          }
-
-          let highlighted = codeText
+        renderer.code = function ({ text, lang = "" }: Tokens.Code) {
+          let highlighted = text
           if (lang && Prism.languages[lang]) {
             try {
-              highlighted = Prism.highlight(codeText, Prism.languages[lang], lang)
-            } catch (e) {
-              console.error("Prism highlight error:", e)
+              highlighted = Prism.highlight(text, Prism.languages[lang], lang)
+            } catch (error) {
+              console.error("Prism highlight error:", error)
             }
           }
           return `<pre><code class="language-${lang}">${highlighted}</code></pre>\n`
         }
 
-        const parsed = marked.parse(markdownBody, { renderer })
-        setHtmlContent(parsed as string)
+        renderer.image = function ({ href, title, text }: Tokens.Image) {
+          const escape = (value: string) => value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+          const titleAttribute = title ? ` title="${escape(title)}"` : ""
+          return `<img class="markdown-image" src="${escape(href)}" alt="${escape(text)}"${titleAttribute} loading="lazy" />`
+        }
+
+        setHtmlContent(marked.parse(markdownBody, { renderer }) as string)
         setLoading(false)
       })
       .catch(() => {
         onHeadingsLoaded?.([])
         setHtmlContent(null)
-        setQuizData(null)
+        setFrontmatter({})
         setLoading(false)
       })
   }, [activeProject, currentPage, parentLabel, onActiveSectionChange, onHeadingsLoaded])
 
   if (loading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <span className="text-zinc-500 text-sm animate-pulse">Loading content...</span>
-      </div>
-    )
+    return <div className="flex h-64 items-center justify-center" aria-label="Loading"><LoaderCircle className="size-5 animate-spin text-zinc-400" /></div>
   }
 
   if (htmlContent) {
-    const quizNode = quizData ? <QuizCard quiz={quizData} /> : null
-    return <DocumentLayout htmlContent={htmlContent} quizNode={quizNode} />
+    const activeLayout = typeof frontmatter.layout === "string" ? frontmatter.layout : currentPage.layout
+
+    if (activeLayout === "split") {
+      return <SplitLayout htmlContent={htmlContent} />
+    }
+
+    return <DocumentLayout htmlContent={htmlContent} />
   }
 
   return fallback

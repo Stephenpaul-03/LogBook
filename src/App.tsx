@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider"
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="cascade-ui-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="cascade-ui-theme">
       <DesktopOnlyGuard>
         <AppShell />
       </DesktopOnlyGuard>

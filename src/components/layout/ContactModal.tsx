@@ -14,10 +14,10 @@ type ContactModalProps = {
 }
 
 const contactCopy = {
-  eyebrow: "Contact me",
-  title: "Have a policy question?",
+  eyebrow: "Contact",
+  title: "Have any questions? ",
   description:
-    "If you have a question about any project’s Privacy Policy, Terms and Conditions, or how data is handled, you can contact me below.",
+    "If you have a question about any project’s Privacy Policy, Terms and Conditions, or how data is handled.",
   note: "Email is the best way to get in touch. You can also find me on LinkedIn or GitHub.",
 }
 
@@ -33,7 +33,7 @@ const contactLinks = [
     icon: Linkedin,
   },
   {
-    label: "View GitHub profile",
+    label: "Find me on GitHub",
     href: "https://github.com/stephenpaul-03",
     icon: Github,
   },
@@ -43,7 +43,7 @@ export function ContactModal({ open, onOpenChange }: ContactModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg overflow-hidden border-zinc-200 bg-white p-0 text-zinc-950 shadow-2xl dark:border-white/[0.1] dark:bg-[#08090c]/96 dark:text-zinc-100">
-        <div className="border-b border-zinc-200 px-6 py-6 dark:border-white/[0.08] sm:px-8">
+        <div className="border-b border-zinc-200 px-4 py-6 dark:border-white/[0.08] sm:px-8">
           <DialogHeader>
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
               {contactCopy.eyebrow}
@@ -58,7 +58,7 @@ export function ContactModal({ open, onOpenChange }: ContactModalProps) {
           </DialogHeader>
         </div>
 
-        <div className="space-y-5 px-6 pb-6 pt-0 sm:px-8">
+        <div className="space-y-5 px-4 pb-6 pt-0 sm:px-8">
           <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
             {contactCopy.note}
           </p>
