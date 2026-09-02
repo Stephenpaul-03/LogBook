@@ -283,7 +283,7 @@ export function AppShell() {
 
 
   const layoutContent = (
-    <div className="flex flex-col h-screen w-screen bg-card overflow-hidden relative antialiased text-foreground">
+    <div className="relative flex h-dvh w-screen flex-col overflow-hidden bg-card text-foreground antialiased">
 <TopNavbar
   activeProject={activeProject}
   onSelectProject={handleSelectProject}
@@ -291,8 +291,8 @@ export function AppShell() {
   isSidebarCollapsed={isSidebarCollapsed}
   onToggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
 />
-      <div className="flex flex-1 min-w-0 overflow-hidden flex-col">
-        <div className="flex min-w-0 flex-1 overflow-hidden relative">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+        <div className="relative flex min-h-0 min-w-0 flex-1 overflow-hidden">
           {!isSidebarCollapsed && (
             <div 
               className="md:hidden fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 ease-in-out cursor-pointer" 
@@ -305,7 +305,7 @@ export function AppShell() {
             onSelectItem={handleSelectPath}
             isCollapsed={isSidebarCollapsed}
           />
-          <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
             <div className="shrink-0 border-b border-zinc-200 bg-white/86 dark:border-white/[0.08] dark:bg-[#07080b]/88">
               <div className="flex h-14 min-w-0 items-center overflow-hidden">
 <BreadcrumbBar
@@ -322,7 +322,7 @@ export function AppShell() {
 />
               </div>
             </div>
-            <main className="min-w-0 flex-1 overflow-y-auto bg-background [scrollbar-color:rgb(161_161_170)_transparent] [scrollbar-width:thin] dark:[scrollbar-color:rgb(63_63_70)_transparent]">
+            <main className="touch-scroll-y mobile-bottom-space min-h-0 min-w-0 flex-1 overflow-y-auto bg-background [scrollbar-color:rgb(161_161_170)_transparent] [scrollbar-width:thin] dark:[scrollbar-color:rgb(63_63_70)_transparent]">
               <PropertyRenderer
                 onActiveSectionChange={setActiveSectionTitle}
                 activeProject={activeProject}

@@ -29,7 +29,7 @@ export function Sidebar({
       <div className="flex h-full w-full flex-col justify-between">
         <nav
           aria-label="Navigation menu"
-          className="min-h-0 flex-1 space-y-6 overflow-y-auto px-6 py-6 [scrollbar-color:rgb(161_161_170)_transparent] [scrollbar-width:thin] dark:[scrollbar-color:rgb(63_63_70)_transparent]"
+          className="touch-scroll-y min-h-0 flex-1 space-y-6 overflow-y-auto px-6 py-6 [scrollbar-color:rgb(161_161_170)_transparent] [scrollbar-width:thin] dark:[scrollbar-color:rgb(63_63_70)_transparent]"
         >
           {categories.map((category) => (
             <SidebarCategory
