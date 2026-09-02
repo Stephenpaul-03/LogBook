@@ -37,7 +37,11 @@ export function PropertyRenderer({
 }: PropertyRendererProps) {
   const [htmlContent, setHtmlContent] = useState<string | null>(null)
   const [frontmatter, setFrontmatter] = useState<Frontmatter>({})
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const pagePath = currentPage.path
+  const pageSlug = currentPage.slug
+  const pageLayout = currentPage.layout
+  const resolvedUrl = currentPage.resolvedUrl
 
   useEffect(() => {
     onActiveSectionChange(undefined)
@@ -46,12 +50,12 @@ export function PropertyRenderer({
     setLoading(true)
 
     const categorySegment = parentLabel ?? ""
-    const slugSegment = currentPage.slug ?? "home"
+    const slugSegment = pageSlug ?? "home"
     const base = sitePath(`/content/${activeProject.id}/${categorySegment ? `${categorySegment}/` : ""}`)
 
     async function fetchContent() {
-      if (currentPage.resolvedUrl) {
-        const res = await fetch(currentPage.resolvedUrl)
+      if (resolvedUrl) {
+        const res = await fetch(resolvedUrl)
         const contentType = res.headers.get("content-type") || ""
         if (res.ok && !contentType.includes("text/html")) return res.text()
       }
@@ -123,14 +127,14 @@ export function PropertyRenderer({
         setFrontmatter({})
         setLoading(false)
       })
-  }, [activeProject, currentPage, parentLabel, onActiveSectionChange, onHeadingsLoaded])
+  }, [activeProject, pagePath, pageSlug, resolvedUrl, parentLabel, onActiveSectionChange, onHeadingsLoaded])
 
   if (loading) {
     return <div className="flex h-64 items-center justify-center" aria-label="Loading"><LoaderCircle className="size-5 animate-spin text-zinc-400" /></div>
   }
 
   if (htmlContent) {
-    const activeLayout = typeof frontmatter.layout === "string" ? frontmatter.layout : currentPage.layout
+    const activeLayout = typeof frontmatter.layout === "string" ? frontmatter.layout : pageLayout
 
     if (activeLayout === "split") {
       return <SplitLayout htmlContent={htmlContent} />

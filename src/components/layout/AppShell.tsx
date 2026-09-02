@@ -133,10 +133,16 @@ export function AppShell() {
     sidebarCategories: [],
     sidebarItems: [],
   })
+  const [isNavigationReady, setIsNavigationReady] = useState(false)
+
+  useEffect(() => {
+    setIsNavigationReady(false)
+  }, [activeProject])
 
   // Handle browser Back/Forward navigation
   useEffect(() => {
     function handlePopState() {
+      if (document.documentElement.dataset.appDialogOpen === "true") return
       const urlInfo = parseUrl()
       if (urlInfo) {
         const proj = PROJECTS.find((p) => p.id === urlInfo.projectId)
@@ -272,10 +278,12 @@ export function AppShell() {
           sidebarCategories: filteredCategories,
           sidebarItems: filteredItems,
         })
+        setIsNavigationReady(true)
         setActivePath(targetPath)
       })
       .catch((err) => {
         console.error("Failed to load sidebar configuration:", err)
+        setIsNavigationReady(true)
       })
   }, [activePath, activeProject, pendingSlug])
 
@@ -283,7 +291,7 @@ export function AppShell() {
 
 
   const layoutContent = (
-    <div className="relative flex h-dvh w-screen flex-col overflow-hidden bg-card text-foreground antialiased">
+    <div className="relative flex h-screen w-screen flex-col overflow-hidden bg-card text-foreground antialiased">
 <TopNavbar
   activeProject={activeProject}
   onSelectProject={handleSelectProject}
@@ -323,13 +331,17 @@ export function AppShell() {
               </div>
             </div>
             <main className="touch-scroll-y mobile-bottom-space min-h-0 min-w-0 flex-1 overflow-y-auto bg-background [scrollbar-color:rgb(161_161_170)_transparent] [scrollbar-width:thin] dark:[scrollbar-color:rgb(63_63_70)_transparent]">
-              <PropertyRenderer
-                onActiveSectionChange={setActiveSectionTitle}
-                activeProject={activeProject}
-                currentPage={currentPage}
-                parentLabel={parentLabel}
-                fallback={<MainContent />}
-              />
+              {isNavigationReady ? (
+                <PropertyRenderer
+                  onActiveSectionChange={setActiveSectionTitle}
+                  activeProject={activeProject}
+                  currentPage={currentPage}
+                  parentLabel={parentLabel}
+                  fallback={<MainContent />}
+                />
+              ) : (
+                <div className="flex h-64 items-center justify-center text-sm text-muted-foreground">Loading content…</div>
+              )}
             </main>
           </div>
         </div>
